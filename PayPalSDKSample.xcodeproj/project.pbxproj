@@ -18,6 +18,10 @@
 		80DB42A728CA407D00DADDC6 /* PayPalUI in Frameworks */ = {isa = PBXBuildFile; productRef = 80DB42A628CA407D00DADDC6 /* PayPalUI */; };
 		80DB42A928CA407D00DADDC6 /* PayPalWebCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 80DB42A828CA407D00DADDC6 /* PayPalWebCheckout */; };
 		80DB42AB28CA407D00DADDC6 /* PaymentsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 80DB42AA28CA407D00DADDC6 /* PaymentsCore */; };
+		80DB42AD28CA9CFC00DADDC6 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB42AC28CA9CFC00DADDC6 /* Networking.swift */; };
+		80DB42AF28CAA12C00DADDC6 /* AccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB42AE28CAA12C00DADDC6 /* AccessToken.swift */; };
+		80DB42B128CAA43800DADDC6 /* CreateOrderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB42B028CAA43800DADDC6 /* CreateOrderParams.swift */; };
+		80DB42B328CAA60500DADDC6 /* OrderID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DB42B228CAA60500DADDC6 /* OrderID.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +33,10 @@
 		8051D93028C1062B00ACC3CD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8051D93328C1062B00ACC3CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8051D93528C1062B00ACC3CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		80DB42AC28CA9CFC00DADDC6 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		80DB42AE28CAA12C00DADDC6 /* AccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessToken.swift; sourceTree = "<group>"; };
+		80DB42B028CAA43800DADDC6 /* CreateOrderParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrderParams.swift; sourceTree = "<group>"; };
+		80DB42B228CAA60500DADDC6 /* OrderID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderID.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +81,10 @@
 				8051D93028C1062B00ACC3CD /* Assets.xcassets */,
 				8051D93228C1062B00ACC3CD /* LaunchScreen.storyboard */,
 				8051D93528C1062B00ACC3CD /* Info.plist */,
+				80DB42AC28CA9CFC00DADDC6 /* Networking.swift */,
+				80DB42B228CAA60500DADDC6 /* OrderID.swift */,
+				80DB42AE28CAA12C00DADDC6 /* AccessToken.swift */,
+				80DB42B028CAA43800DADDC6 /* CreateOrderParams.swift */,
 			);
 			path = PayPalSDKSample;
 			sourceTree = "<group>";
@@ -160,7 +172,11 @@
 			files = (
 				8051D92C28C1062A00ACC3CD /* ViewController.swift in Sources */,
 				8051D92828C1062A00ACC3CD /* AppDelegate.swift in Sources */,
+				80DB42B128CAA43800DADDC6 /* CreateOrderParams.swift in Sources */,
+				80DB42B328CAA60500DADDC6 /* OrderID.swift in Sources */,
 				8051D92A28C1062A00ACC3CD /* SceneDelegate.swift in Sources */,
+				80DB42AD28CA9CFC00DADDC6 /* Networking.swift in Sources */,
+				80DB42AF28CAA12C00DADDC6 /* AccessToken.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
