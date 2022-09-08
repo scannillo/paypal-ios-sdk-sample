@@ -12,46 +12,117 @@ import PaymentsCore
 
 class ViewController: UIViewController {
     
+    // MARK: - Properties
+    
     let clientID = "AUiHPkr1LO7TzZH0Q5_aE8aGNmTiXZh6kKErYFrtXNYSDv13FrN2NElXabVV4fNrZol7LAaVb1gJj9lr"
     var accessToken: String?
     var orderID: String?
     
+    // MARK: - IBOutlets
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        activityIndicator.hidesWhenStopped = true
+        
         // 1. Get AccessToken
+        fetchAccessToken()
+        
+        // 2. Get OrderID
+        fetchOrderID()
+    }
+    
+    func fetchAccessToken() {
+        activityIndicator.startAnimating()
         Networking.sharedService.fetchAccessToken { [weak self] accessToken in
             guard let self = self else { return }
             
             print("Fetched accessToken: \(String(describing: accessToken))")
             self.accessToken = accessToken
             
-            // 2. Get OrderID
-            let orderParams = CreateOrderParams(
-                intent: "CAPTURE",
-                purchaseUnits: [
-                    PurchaseUnit(
-                        amount: Amount(
-                            currencyCode: "USD",
-                            value: "10.00")
-                    )],
-                applicationContext: ApplicationContext(
-                    returnUrl: "https://example.com/returnUrl",
-                    cancelUrl: "https://example.com/cancelUrl"
-                )
-            )
-            Networking.sharedService.createOrderID(orderParams: orderParams) { orderID in
-                print("Fetched OrderID: \(String(describing: orderID))")
-                self.orderID = orderID
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
             }
         }
     }
-
-    func createCardClient() {
-        let config = CoreConfig(clientID: clientID, accessToken: accessToken!, environment: .sandbox)
-        let cardClient = CardClient(config: config)
+    
+    func fetchOrderID() {
+        activityIndicator.startAnimating()
+        let orderParams = CreateOrderParams(
+            intent: "CAPTURE",
+            purchaseUnits: [
+                PurchaseUnit(
+                    amount: Amount(
+                        currencyCode: "USD",
+                        value: "10.00")
+                )],
+            applicationContext: ApplicationContext(
+                returnUrl: "https://example.com/returnUrl",
+                cancelUrl: "https://example.com/cancelUrl"
+            )
+        )
+        Networking.sharedService.createOrderID(orderParams: orderParams) { orderID in
+            print("Fetched OrderID: \(String(describing: orderID))")
+            self.orderID = orderID
+            
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+            }
+        }
     }
     
+    func createCardClient() {
+        let config = CoreConfig(clientID: clientID, accessToken: accessToken!, environment: .sandbox)
+        
+        let card = Card(
+            number: "4111111111111111",
+            expirationMonth: "01",
+            expirationYear: "25",
+            securityCode: "123",
+            cardHolderName: "Jane Smith",
+            billingAddress: Address(
+                addressLine1: "123 Main St.",
+                addressLine2: "Apt. 1A",
+                locality: "city",
+                region: "IL",
+                postalCode: "12345",
+                countryCode: "US"
+            )
+        )
+        
+        let cardClient = CardClient(config: config)
+        cardClient.delegate = self
+        
+        let cardRequest = CardRequest(orderID: self.orderID!, card: card)
+        cardClient.approveOrder(request: cardRequest, context: self)
+    }
+    
+}
+
+// MARK: - CardDelegate
+
+extension ViewController: CardDelegate {
+    
+    func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
+        // order was successfully approved and is ready to be captured/authorized (see step 8)
+    }
+    
+    func card(_ cardClient: CardClient, didFinishWithError error: CoreSDKError) {
+        // handle the error by accessing `error.localizedDescription`
+    }
+    
+    func cardDidCancel(_ cardClient: CardClient) {
+        // 3D Secure auth was canceled by the user
+    }
+    
+    func cardThreeDSecureWillLaunch(_ cardClient: CardClient) {
+        // 3D Secure auth will launch
+    }
+    
+    func cardThreeDSecureDidFinish(_ cardClient: CardClient) {
+        // 3D Secure auth did finish successfully
+    }
 }
 
 // MARK: - ASWebAuthenticationPresentationContextProviding

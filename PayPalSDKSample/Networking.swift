@@ -38,8 +38,6 @@ final class Networking {
             let orderID = try! decoder.decode(OrderID.self, from: data)
             return completion(orderID.id)
         }.resume()
-        
-        completion(nil)
     }
 
     public func fetchAccessToken(completion: @escaping (String?) -> Void) {
@@ -70,9 +68,6 @@ final class Networking {
             let accessToken = try! decoder.decode(AccessToken.self, from: data)
             return completion(accessToken.accessToken)
         }.resume()
-        
-        completion(nil)
     }
-
     
 }
