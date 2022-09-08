@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AuthenticationServices
 
 class ViewController: UIViewController {
 
@@ -17,3 +18,15 @@ class ViewController: UIViewController {
 
 }
 
+// MARK: - ASWebAuthenticationPresentationContextProviding
+
+extension ViewController: ASWebAuthenticationPresentationContextProviding {
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        UIApplication
+            .shared
+            .connectedScenes
+            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+            .first { $0.isKeyWindow }
+        ?? ASPresentationAnchor()
+    }
+}
