@@ -13,6 +13,11 @@
 		8051D92F28C1062A00ACC3CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8051D92D28C1062A00ACC3CD /* Main.storyboard */; };
 		8051D93128C1062B00ACC3CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8051D93028C1062B00ACC3CD /* Assets.xcassets */; };
 		8051D93428C1062B00ACC3CD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8051D93228C1062B00ACC3CD /* LaunchScreen.storyboard */; };
+		80DB42A328CA407D00DADDC6 /* Card in Frameworks */ = {isa = PBXBuildFile; productRef = 80DB42A228CA407D00DADDC6 /* Card */; };
+		80DB42A528CA407D00DADDC6 /* PayPalDataCollector in Frameworks */ = {isa = PBXBuildFile; productRef = 80DB42A428CA407D00DADDC6 /* PayPalDataCollector */; };
+		80DB42A728CA407D00DADDC6 /* PayPalUI in Frameworks */ = {isa = PBXBuildFile; productRef = 80DB42A628CA407D00DADDC6 /* PayPalUI */; };
+		80DB42A928CA407D00DADDC6 /* PayPalWebCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 80DB42A828CA407D00DADDC6 /* PayPalWebCheckout */; };
+		80DB42AB28CA407D00DADDC6 /* PaymentsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 80DB42AA28CA407D00DADDC6 /* PaymentsCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +36,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80DB42A928CA407D00DADDC6 /* PayPalWebCheckout in Frameworks */,
+				80DB42A728CA407D00DADDC6 /* PayPalUI in Frameworks */,
+				80DB42AB28CA407D00DADDC6 /* PaymentsCore in Frameworks */,
+				80DB42A328CA407D00DADDC6 /* Card in Frameworks */,
+				80DB42A528CA407D00DADDC6 /* PayPalDataCollector in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +93,13 @@
 			dependencies = (
 			);
 			name = PayPalSDKSample;
+			packageProductDependencies = (
+				80DB42A228CA407D00DADDC6 /* Card */,
+				80DB42A428CA407D00DADDC6 /* PayPalDataCollector */,
+				80DB42A628CA407D00DADDC6 /* PayPalUI */,
+				80DB42A828CA407D00DADDC6 /* PayPalWebCheckout */,
+				80DB42AA28CA407D00DADDC6 /* PaymentsCore */,
+			);
 			productName = PayPalSDKSample;
 			productReference = 8051D92428C1062A00ACC3CD /* PayPalSDKSample.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +128,9 @@
 				Base,
 			);
 			mainGroup = 8051D91B28C1062A00ACC3CD;
+			packageReferences = (
+				80DB42A128CA407D00DADDC6 /* XCRemoteSwiftPackageReference "iOS-SDK" */,
+			);
 			productRefGroup = 8051D92528C1062A00ACC3CD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -358,6 +378,45 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		80DB42A128CA407D00DADDC6 /* XCRemoteSwiftPackageReference "iOS-SDK" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/paypal/iOS-SDK";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		80DB42A228CA407D00DADDC6 /* Card */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80DB42A128CA407D00DADDC6 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			productName = Card;
+		};
+		80DB42A428CA407D00DADDC6 /* PayPalDataCollector */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80DB42A128CA407D00DADDC6 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			productName = PayPalDataCollector;
+		};
+		80DB42A628CA407D00DADDC6 /* PayPalUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80DB42A128CA407D00DADDC6 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			productName = PayPalUI;
+		};
+		80DB42A828CA407D00DADDC6 /* PayPalWebCheckout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80DB42A128CA407D00DADDC6 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			productName = PayPalWebCheckout;
+		};
+		80DB42AA28CA407D00DADDC6 /* PaymentsCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80DB42A128CA407D00DADDC6 /* XCRemoteSwiftPackageReference "iOS-SDK" */;
+			productName = PaymentsCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8051D91C28C1062A00ACC3CD /* Project object */;
 }

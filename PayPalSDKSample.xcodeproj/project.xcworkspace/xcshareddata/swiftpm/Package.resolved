@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/paypal/iOS-SDK",
+      "state" : {
+        "revision" : "fd5ac0e8b1db1c271c86ed930a30ec5417e085fd",
+        "version" : "0.0.1"
+      }
+    }
+  ],
+  "version" : 2
+}
