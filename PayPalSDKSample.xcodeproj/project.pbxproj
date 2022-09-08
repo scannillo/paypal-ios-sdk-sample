@@ -82,11 +82,19 @@
 				8051D93228C1062B00ACC3CD /* LaunchScreen.storyboard */,
 				8051D93528C1062B00ACC3CD /* Info.plist */,
 				80DB42AC28CA9CFC00DADDC6 /* Networking.swift */,
+				80DB42B428CAA7FE00DADDC6 /* Models */,
+			);
+			path = PayPalSDKSample;
+			sourceTree = "<group>";
+		};
+		80DB42B428CAA7FE00DADDC6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
 				80DB42B228CAA60500DADDC6 /* OrderID.swift */,
 				80DB42AE28CAA12C00DADDC6 /* AccessToken.swift */,
 				80DB42B028CAA43800DADDC6 /* CreateOrderParams.swift */,
 			);
-			path = PayPalSDKSample;
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
