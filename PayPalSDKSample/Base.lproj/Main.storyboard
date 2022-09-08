@@ -17,23 +17,48 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="syt-LW-omG">
-                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                                <rect key="frame" x="197" y="289" width="20" height="318"/>
                             </activityIndicatorView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="160" translatesAutoresizingMaskIntoConstraints="NO" id="S5C-En-gkr">
+                                <rect key="frame" x="0.0" y="637" width="414" height="225"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rGO-7E-8ce">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Card Checkout"/>
+                                        <connections>
+                                            <action selector="cardCheckoutTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lhb-PK-nL4"/>
+                                        </connections>
+                                    </button>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Status ..." borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rKi-vT-9sT">
+                                        <rect key="frame" x="0.0" y="191" width="414" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="syt-LW-omG" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="QjP-CB-rNw"/>
-                            <constraint firstItem="syt-LW-omG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lrq-py-ubo"/>
+                            <constraint firstItem="S5C-En-gkr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GaL-Gy-hZQ"/>
+                            <constraint firstItem="S5C-En-gkr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LI3-cD-83c"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="S5C-En-gkr" secondAttribute="bottom" id="Ukg-tM-NZ0"/>
+                            <constraint firstItem="syt-LW-omG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cLI-RJ-pOi"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="S5C-En-gkr" secondAttribute="trailing" id="hN5-B0-chS"/>
+                            <constraint firstItem="syt-LW-omG" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="pWT-Jq-YuN"/>
+                            <constraint firstItem="S5C-En-gkr" firstAttribute="top" secondItem="syt-LW-omG" secondAttribute="bottom" constant="30" id="wLH-r7-Fa8"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="syt-LW-omG" id="uuy-Tq-il0"/>
+                        <outlet property="cardCheckoutButton" destination="rGO-7E-8ce" id="E1N-pW-vbn"/>
+                        <outlet property="statusTextField" destination="rKi-vT-9sT" id="EtF-C5-0UR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="125"/>
+            <point key="canvasLocation" x="137.68115942028987" y="124.55357142857142"/>
         </scene>
     </scenes>
     <resources>

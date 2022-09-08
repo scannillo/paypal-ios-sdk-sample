@@ -20,6 +20,10 @@ class ViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var cardCheckoutButton: UIButton!
+    @IBOutlet weak var statusTextField: UITextField!
+    
+    // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +36,8 @@ class ViewController: UIViewController {
         // 2. Get OrderID
         fetchOrderID()
     }
+    
+    // MARK: - PayPal SDK Implementation
     
     func fetchAccessToken() {
         activityIndicator.startAnimating()
@@ -72,7 +78,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func createCardClient() {
+    @IBAction func cardCheckoutTapped(_ sender: Any) {
         let config = CoreConfig(clientID: clientID, accessToken: accessToken!, environment: .sandbox)
         
         let card = Card(
@@ -96,7 +102,15 @@ class ViewController: UIViewController {
         
         let cardRequest = CardRequest(orderID: self.orderID!, card: card)
         cardClient.approveOrder(request: cardRequest, context: self)
+        updateStatus("Approving card ...")
     }
+    
+    func updateStatus(_ text: String) {
+        DispatchQueue.main.async {
+            self.statusTextField.text = text
+        }
+    }
+    
     
 }
 
@@ -105,22 +119,28 @@ class ViewController: UIViewController {
 extension ViewController: CardDelegate {
     
     func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
+        updateStatus("didFinishWithResult")
         // order was successfully approved and is ready to be captured/authorized (see step 8)
     }
     
     func card(_ cardClient: CardClient, didFinishWithError error: CoreSDKError) {
+        print(error)
+        updateStatus("didFinishWithError")
         // handle the error by accessing `error.localizedDescription`
     }
     
     func cardDidCancel(_ cardClient: CardClient) {
+        updateStatus("cardDidCancel")
         // 3D Secure auth was canceled by the user
     }
     
     func cardThreeDSecureWillLaunch(_ cardClient: CardClient) {
+        updateStatus("cardThreeDSecureWillLaunch")
         // 3D Secure auth will launch
     }
     
     func cardThreeDSecureDidFinish(_ cardClient: CardClient) {
+        updateStatus("cardThreeDSecureDidFinish")
         // 3D Secure auth did finish successfully
     }
 }
