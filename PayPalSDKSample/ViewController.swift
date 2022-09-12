@@ -29,6 +29,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         activityIndicator.hidesWhenStopped = true
+        cardCheckoutButton.isEnabled = false
         
         // 1. Get AccessToken
         fetchAccessToken()
@@ -56,7 +57,7 @@ class ViewController: UIViewController {
     func fetchOrderID() {
         activityIndicator.startAnimating()
         let orderParams = CreateOrderParams(
-            intent: "CAPTURE",
+            intent: "AUTHORIZE",
             purchaseUnits: [
                 PurchaseUnit(
                     amount: Amount(
@@ -74,6 +75,16 @@ class ViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
+                self.cardCheckoutButton.isEnabled = true
+            }
+        }
+    }
+    
+    func postAuthorizeOrder(orderID: String) {
+        Networking.sharedService.postAuthorizeOrder(orderID: orderID) { result in
+            print("Authorized OrderID: \(orderID)")
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
             }
         }
     }
@@ -82,9 +93,9 @@ class ViewController: UIViewController {
         let config = CoreConfig(clientID: clientID, accessToken: accessToken!, environment: .sandbox)
         
         let card = Card(
-            number: "4111111111111111",
+            number: "4005519200000004",
             expirationMonth: "01",
-            expirationYear: "25",
+            expirationYear: "2025",
             securityCode: "123",
             cardHolderName: "Jane Smith",
             billingAddress: Address(
@@ -120,6 +131,8 @@ extension ViewController: CardDelegate {
     
     func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
         updateStatus("didFinishWithResult")
+        postAuthorizeOrder(orderID: self.orderID!)
+        
         // order was successfully approved and is ready to be captured/authorized (see step 8)
     }
     

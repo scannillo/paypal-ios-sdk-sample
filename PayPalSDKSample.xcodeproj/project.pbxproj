@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		575AC56228CFD8990028B731 /* OrderAuthorizationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575AC56128CFD8990028B731 /* OrderAuthorizationResult.swift */; };
 		8051D92828C1062A00ACC3CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8051D92728C1062A00ACC3CD /* AppDelegate.swift */; };
 		8051D92A28C1062A00ACC3CD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8051D92928C1062A00ACC3CD /* SceneDelegate.swift */; };
 		8051D92C28C1062A00ACC3CD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8051D92B28C1062A00ACC3CD /* ViewController.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		575AC56128CFD8990028B731 /* OrderAuthorizationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAuthorizationResult.swift; sourceTree = "<group>"; };
 		8051D92428C1062A00ACC3CD /* PayPalSDKSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PayPalSDKSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8051D92728C1062A00ACC3CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8051D92928C1062A00ACC3CD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				80DB42B228CAA60500DADDC6 /* OrderID.swift */,
 				80DB42AE28CAA12C00DADDC6 /* AccessToken.swift */,
 				80DB42B028CAA43800DADDC6 /* CreateOrderParams.swift */,
+				575AC56128CFD8990028B731 /* OrderAuthorizationResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -183,6 +186,7 @@
 				80DB42B128CAA43800DADDC6 /* CreateOrderParams.swift in Sources */,
 				80DB42B328CAA60500DADDC6 /* OrderID.swift in Sources */,
 				8051D92A28C1062A00ACC3CD /* SceneDelegate.swift in Sources */,
+				575AC56228CFD8990028B731 /* OrderAuthorizationResult.swift in Sources */,
 				80DB42AD28CA9CFC00DADDC6 /* Networking.swift in Sources */,
 				80DB42AF28CAA12C00DADDC6 /* AccessToken.swift in Sources */,
 			);

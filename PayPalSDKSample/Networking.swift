@@ -70,4 +70,34 @@ final class Networking {
         }.resume()
     }
     
+    public func postAuthorizeOrder(orderID: String, completion: @escaping (String?) -> Void) {
+        let url = URL(string: "http://localhost:8080/orders/\(orderID)/authorize")!
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            if let _ = error {
+                completion(nil)
+                return
+            }
+            
+            guard let _ = response else {
+                completion(nil)
+                return
+            }
+            
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let result = try! decoder.decode(OrderAuthorizationResult.self, from: data)
+            return completion(result.id)
+        }.resume()
+    }
+    
 }
