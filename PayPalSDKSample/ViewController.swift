@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var cardCheckoutButton: UIButton!
+    @IBOutlet weak var intentSegmentedControl: UISegmentedControl!
     @IBOutlet weak var statusTextField: UITextField!
     
     // MARK: - View Lifecycle
@@ -56,8 +57,9 @@ class ViewController: UIViewController {
     
     func fetchOrderID() {
         activityIndicator.startAnimating()
+        
         let orderParams = CreateOrderParams(
-            intent: "AUTHORIZE",
+            intent: intentSegmentedControl.titleForSegment(at: intentSegmentedControl.selectedSegmentIndex)!,
             purchaseUnits: [
                 PurchaseUnit(
                     amount: Amount(
@@ -69,23 +71,20 @@ class ViewController: UIViewController {
                 cancelUrl: "https://example.com/cancelUrl"
             )
         )
-        Networking.sharedService.createOrderID(orderParams: orderParams) { orderID in
-            print("Fetched OrderID: \(String(describing: orderID))")
-            self.orderID = orderID
+        Networking.sharedService.createOrderID(orderParams: orderParams) { [weak self] orderID in
+            self?.updateStatus("Fetched OrderID: \(String(describing: orderID))")
+            self?.orderID = orderID
             
             DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.cardCheckoutButton.isEnabled = true
+                self?.activityIndicator.stopAnimating()
+                self?.cardCheckoutButton.isEnabled = true
             }
         }
     }
     
     func postAuthorizeOrder(orderID: String) {
-        Networking.sharedService.postAuthorizeOrder(orderID: orderID) { result in
-            print("Authorized OrderID: \(orderID)")
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-            }
+        Networking.sharedService.postAuthorizeOrder(orderID: orderID) { [weak self] result in
+            self?.updateStatus("Authorized OrderID: \(orderID)")
         }
     }
     
@@ -130,8 +129,8 @@ class ViewController: UIViewController {
 extension ViewController: CardDelegate {
     
     func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
-        updateStatus("didFinishWithResult")
-        postAuthorizeOrder(orderID: self.orderID!)
+        updateStatus("didFinishWithResult: \(result.orderID)")
+        postAuthorizeOrder(orderID: result.orderID)
         
         // order was successfully approved and is ready to be captured/authorized (see step 8)
     }
