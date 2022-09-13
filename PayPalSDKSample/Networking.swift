@@ -70,8 +70,8 @@ final class Networking {
         }.resume()
     }
     
-    public func postAuthorizeOrder(orderID: String, completion: @escaping (String?) -> Void) {
-        let url = URL(string: "http://localhost:8080/orders/\(orderID)/authorize")!
+    public func postCompleteOrder(orderID: String, intent: String, completion: @escaping (String?) -> Void) {
+        let url = URL(string: "http://localhost:8080/orders/\(orderID)/\(intent)")!
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"

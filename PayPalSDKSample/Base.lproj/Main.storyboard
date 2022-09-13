@@ -29,6 +29,9 @@
                                             <segment title="AUTHORIZE"/>
                                             <segment title="CAPTURE"/>
                                         </segments>
+                                        <connections>
+                                            <action selector="intentSegmentControlSelected:" destination="BYZ-38-t0r" eventType="valueChanged" id="0Ln-7M-tZY"/>
+                                        </connections>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rGO-7E-8ce">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="31"/>

@@ -17,8 +17,12 @@ class ViewController: UIViewController {
     let clientID = "AUiHPkr1LO7TzZH0Q5_aE8aGNmTiXZh6kKErYFrtXNYSDv13FrN2NElXabVV4fNrZol7LAaVb1gJj9lr"
     var accessToken: String?
     var orderID: String?
+    var selectedIntent: String {
+        intentSegmentedControl.titleForSegment(at: intentSegmentedControl.selectedSegmentIndex)!
+    }
     
     // MARK: - IBOutlets
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var cardCheckoutButton: UIButton!
     @IBOutlet weak var intentSegmentedControl: UISegmentedControl!
@@ -56,10 +60,12 @@ class ViewController: UIViewController {
     }
     
     func fetchOrderID() {
+        updateStatus("Fetching new orderID...")
+        cardCheckoutButton.isEnabled = false
         activityIndicator.startAnimating()
         
         let orderParams = CreateOrderParams(
-            intent: intentSegmentedControl.titleForSegment(at: intentSegmentedControl.selectedSegmentIndex)!,
+            intent: selectedIntent,
             purchaseUnits: [
                 PurchaseUnit(
                     amount: Amount(
@@ -82,11 +88,15 @@ class ViewController: UIViewController {
         }
     }
     
-    func postAuthorizeOrder(orderID: String) {
-        Networking.sharedService.postAuthorizeOrder(orderID: orderID) { [weak self] result in
-            self?.updateStatus("Authorized OrderID: \(orderID)")
+    func completeOrder(orderID: String) {
+        updateStatus("Submitting order for: \(selectedIntent) ...")
+        Networking.sharedService.postCompleteOrder(orderID: orderID, intent: selectedIntent) { [weak self] result in
+            guard let self = self else { return }
+            self.updateStatus("\(self.selectedIntent) complete for orderID \(orderID)")
         }
     }
+    
+    // MARK: - IBActions
     
     @IBAction func cardCheckoutTapped(_ sender: Any) {
         let config = CoreConfig(clientID: clientID, accessToken: accessToken!, environment: .sandbox)
@@ -115,12 +125,17 @@ class ViewController: UIViewController {
         updateStatus("Approving card ...")
     }
     
+    @IBAction func intentSegmentControlSelected(_ sender: Any) {
+        fetchOrderID()
+    }
+    
+    // MARK: - Helpers
+    
     func updateStatus(_ text: String) {
         DispatchQueue.main.async {
             self.statusTextField.text = text
         }
     }
-    
     
 }
 
@@ -130,7 +145,7 @@ extension ViewController: CardDelegate {
     
     func card(_ cardClient: CardClient, didFinishWithResult result: CardResult) {
         updateStatus("didFinishWithResult: \(result.orderID)")
-        postAuthorizeOrder(orderID: result.orderID)
+        completeOrder(orderID: result.orderID)
         
         // order was successfully approved and is ready to be captured/authorized (see step 8)
     }
