@@ -12,6 +12,10 @@ import PaymentsCore
 
 class ViewController: UIViewController {
     
+    // MARK: - Constants
+    
+    final let urlScheme = "com.braintreepayments.PayPalSDKSample://payments"
+    
     // MARK: - Properties
     
     let clientID = "AUiHPkr1LO7TzZH0Q5_aE8aGNmTiXZh6kKErYFrtXNYSDv13FrN2NElXabVV4fNrZol7LAaVb1gJj9lr"
@@ -71,10 +75,11 @@ class ViewController: UIViewController {
                     amount: Amount(
                         currencyCode: "USD",
                         value: "10.00")
-                )],
+                )]
+            ,
             applicationContext: ApplicationContext(
-                returnUrl: "https://example.com/returnUrl",
-                cancelUrl: "https://example.com/cancelUrl"
+                returnUrl: urlScheme,
+                cancelUrl: urlScheme
             )
         )
         Networking.sharedService.createOrderID(orderParams: orderParams) { [weak self] orderID in
