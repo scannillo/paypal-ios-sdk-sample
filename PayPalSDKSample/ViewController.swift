@@ -17,9 +17,9 @@ class ViewController: UIViewController {
     let clientID = "AUiHPkr1LO7TzZH0Q5_aE8aGNmTiXZh6kKErYFrtXNYSDv13FrN2NElXabVV4fNrZol7LAaVb1gJj9lr"
     var accessToken: String?
     var orderID: String?
-    var selectedIntent: String {
-        intentSegmentedControl.titleForSegment(at: intentSegmentedControl.selectedSegmentIndex)!
-    }
+    lazy var selectedIntent: String = {
+        return intentSegmentedControl.titleForSegment(at: intentSegmentedControl.selectedSegmentIndex)!
+    }()
     
     // MARK: - IBOutlets
     
@@ -102,7 +102,8 @@ class ViewController: UIViewController {
         let config = CoreConfig(clientID: clientID, accessToken: accessToken!, environment: .sandbox)
         
         let card = Card(
-            number: "4005519200000004",
+            number: "5329879786234393", // 3DS challenge
+            // number: "4005519200000004", // non-3DS success card
             expirationMonth: "01",
             expirationYear: "2025",
             securityCode: "123",
@@ -120,12 +121,15 @@ class ViewController: UIViewController {
         let cardClient = CardClient(config: config)
         cardClient.delegate = self
         
-        let cardRequest = CardRequest(orderID: self.orderID!, card: card)
+        let threeDSecureRequest = ThreeDSecureRequest(sca: .scaAlways, returnUrl: "", cancelUrl: "")
+        let cardRequest = CardRequest(orderID: self.orderID!, card: card, threeDSecureRequest: threeDSecureRequest)
+
         cardClient.approveOrder(request: cardRequest, context: self)
         updateStatus("Approving card ...")
     }
     
     @IBAction func intentSegmentControlSelected(_ sender: Any) {
+        selectedIntent = intentSegmentedControl.titleForSegment(at: intentSegmentedControl.selectedSegmentIndex)!
         fetchOrderID()
     }
     
