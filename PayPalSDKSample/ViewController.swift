@@ -9,6 +9,7 @@ import UIKit
 import AuthenticationServices
 import Card
 import PaymentsCore
+import PayPalWebCheckout
 
 class ViewController: UIViewController {
     
@@ -18,17 +19,20 @@ class ViewController: UIViewController {
     
     // MARK: - Properties
     
-    let clientID = "AUiHPkr1LO7TzZH0Q5_aE8aGNmTiXZh6kKErYFrtXNYSDv13FrN2NElXabVV4fNrZol7LAaVb1gJj9lr"
     var accessToken: String?
     var orderID: String?
     lazy var selectedIntent: String = {
         return intentSegmentedControl.titleForSegment(at: intentSegmentedControl.selectedSegmentIndex)!
+    }()
+    lazy var config: CoreConfig = {
+        return CoreConfig(accessToken: accessToken!, environment: .sandbox)
     }()
     
     // MARK: - IBOutlets
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var cardCheckoutButton: UIButton!
+    @IBOutlet weak var paypalCheckoutButton: UIButton!
     @IBOutlet weak var intentSegmentedControl: UISegmentedControl!
     @IBOutlet weak var statusTextField: UITextField!
     
@@ -39,6 +43,7 @@ class ViewController: UIViewController {
         
         activityIndicator.hidesWhenStopped = true
         cardCheckoutButton.isEnabled = false
+        paypalCheckoutButton.isEnabled = false
         
         // 1. Get AccessToken
         fetchAccessToken()
@@ -66,6 +71,7 @@ class ViewController: UIViewController {
     func fetchOrderID() {
         updateStatus("Fetching new orderID...")
         cardCheckoutButton.isEnabled = false
+        paypalCheckoutButton.isEnabled = false
         activityIndicator.startAnimating()
         
         let orderParams = CreateOrderParams(
@@ -89,6 +95,7 @@ class ViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.activityIndicator.stopAnimating()
                 self?.cardCheckoutButton.isEnabled = true
+                self?.paypalCheckoutButton.isEnabled = true
             }
         }
     }
@@ -104,8 +111,6 @@ class ViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func cardCheckoutTapped(_ sender: Any) {
-        let config = CoreConfig(accessToken: accessToken!, environment: .sandbox)
-        
         let card = Card(
             number: "5329879786234393", // 3DS challenge
             // number: "4005519200000004", // non-3DS success card
@@ -131,6 +136,16 @@ class ViewController: UIViewController {
 
         cardClient.approveOrder(request: cardRequest, context: self)
         updateStatus("Approving card ...")
+    }
+    
+    @IBAction func paypalWebCheckoutTapped(_ sender: Any) {
+        let paypalClient = PayPalWebCheckoutClient(config: config)
+        
+        let payPalRequest = PayPalWebCheckoutRequest(orderID: orderID!)
+        
+        paypalClient.delegate = self
+        paypalClient.start(request: payPalRequest, context: self)
+
     }
     
     @IBAction func intentSegmentControlSelected(_ sender: Any) {
@@ -191,5 +206,24 @@ extension ViewController: ASWebAuthenticationPresentationContextProviding {
             .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
             .first { $0.isKeyWindow }
         ?? ASPresentationAnchor()
+    }
+}
+
+
+// MARK: - PayPalWebCheckoutDelegate
+
+extension ViewController: PayPalWebCheckoutDelegate {
+    
+    func payPal(_ payPalClient: PayPalWebCheckout.PayPalWebCheckoutClient, didFinishWithResult result: PayPalWebCheckout.PayPalWebCheckoutResult) {
+        updateStatus("didFinishWithResult: \(result.orderID)")
+        completeOrder(orderID: result.orderID)
+    }
+    
+    func payPal(_ payPalClient: PayPalWebCheckout.PayPalWebCheckoutClient, didFinishWithError error: PaymentsCore.CoreSDKError) {
+        updateStatus("paypal didFinishWithError")
+    }
+    
+    func payPalDidCancel(_ payPalClient: PayPalWebCheckout.PayPalWebCheckoutClient) {
+        updateStatus("payPalDidCancel")
     }
 }
