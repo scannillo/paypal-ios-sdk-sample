@@ -104,7 +104,7 @@ class ViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func cardCheckoutTapped(_ sender: Any) {
-        let config = CoreConfig(clientID: clientID, accessToken: accessToken!, environment: .sandbox)
+        let config = CoreConfig(accessToken: accessToken!, environment: .sandbox)
         
         let card = Card(
             number: "5329879786234393", // 3DS challenge
